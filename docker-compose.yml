@@ -5,7 +5,7 @@ services:
       context: .\docker_db
       dockerfile: Dockerfile.db
     ports:
-      - 5432
+      - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -17,17 +17,6 @@ services:
       retries: 5
     volumes:
       - volume_name:/var/lib/postgresql/data
-    networks:
-    - main
-  adminer:
-    container_name: adminer_test
-    image: adminer
-    restart: always
-    ports:
-      - 48483:48483
-    depends_on:
-      db:
-        condition: service_healthy
     networks:
     - main
   front:
