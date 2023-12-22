@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: db_test
+    build:
+      context: .
+      dockerfile: Dockerfile_db
+    ports:
+      - 28801:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-U postgres" ]
+      interval: 1s
+      timeout: 10s
+      retries: 5
+    networks:
+    - main
+  front:
+    container_name: front
+    build:
+      context: .
+      dockerfile: Dockerfile_front
+    ports:
+      - 5173:5173
+    depends_on:
+      back:
+        condition: service_healthy
+    networks:
+    - main
+  back:
+    container_name: back
+    build:
+      context: .
+      dockerfile: Dockerfile_back
+    ports:
+      - 8000:8000
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+    - main
+
+networks:
+  main:

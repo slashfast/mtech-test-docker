@@ -1,0 +1,9 @@
+FROM python:3.11-buster
+
+RUN pip install poetry
+RUN apt install -y git libpq-dev
+RUN git clone https://github.com/slashfast/mtech-test-backend.git
+WORKDIR /mtech-test-backend
+RUN poetry install && pip wheel --no-cache-dir --use-pep517 "psycopg2-binary (==2.9.9)"
+EXPOSE 8000
+CMD ["poetry", "run", "python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0"]
