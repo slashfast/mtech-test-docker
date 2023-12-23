@@ -16,7 +16,7 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - test_mtech:/var/lib/postgresql/data
+      - mtech:/var/lib/postgresql/data
     networks:
       - main
   front:
@@ -60,5 +60,4 @@ networks:
 
 
 volumes:
-  volume_name:
-    name: test_mtech
+  mtech:
