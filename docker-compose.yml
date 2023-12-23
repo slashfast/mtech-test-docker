@@ -16,9 +16,9 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - volume_name:/var/lib/postgresql/data
+      - test_mtech:/var/lib/postgresql/data
     networks:
-    - main
+      - main
   front:
     container_name: front
     build:
@@ -30,7 +30,7 @@ services:
       back:
         condition: service_healthy
     networks:
-    - main
+      - main
   back:
     container_name: back
     build:
@@ -53,11 +53,12 @@ services:
       db:
         condition: service_healthy
     networks:
-    - main
+      - main
 
 networks:
   main:
 
+
 volumes:
-  volume_name:                                 # <- Rename "volume_name"
-    name: test_mtech     
+  volume_name:
+    name: test_mtech
